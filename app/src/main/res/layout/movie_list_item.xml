@@ -4,6 +4,7 @@
     android:layout_height="300dp">
 
     <ImageView
+        android:contentDescription="@string/posterDesc"
         android:id="@+id/movie_poster"
         android:gravity="center"
         android:layout_width="match_parent"

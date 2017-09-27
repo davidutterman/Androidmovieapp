@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 class NetworkUtils {
@@ -24,7 +25,7 @@ class NetworkUtils {
     static URL buildUrl(String url, String apiKey, MovieDbListType movieDbListType) {
 
         Uri builtUri = Uri.parse(url).buildUpon()
-                .appendPath(movieDbListType.toString().toLowerCase())
+                .appendPath(movieDbListType.toString().toLowerCase(Locale.getDefault()))
                 .appendQueryParameter(API_KEY_PARAM, apiKey)
                 .build();
 

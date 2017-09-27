@@ -59,9 +59,8 @@ public class Movie implements Serializable {
         return this;
     }
 
-    public String getPosterUrl(Context c) {
-        Config p = new Config(c.getAssets());
-        String posterUrl = p.getProperty("poster_url");
-        return posterUrl + getThumbnail();
+    public String getPosterUrl(Context context) {
+        Config p = new Config(context);
+        return p.getProperty("poster_url") + getThumbnail();
     }
 }

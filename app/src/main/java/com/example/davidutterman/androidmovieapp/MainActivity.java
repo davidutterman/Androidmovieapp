@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private void makeMovieDbQuery(MovieDbListType type) {
         showMovieDataView();
-        Config config = new Config(getAssets());
+        Config config = new Config(getBaseContext());
         URL url = NetworkUtils.buildUrl(
                 config.getProperty("movie_db_url"),
                 config.getProperty("api_key"), type);

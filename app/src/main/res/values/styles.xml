@@ -8,10 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="textAppearanceLarge">
-        <item name="android:textSize">22sp</item>
-    </style>
-
     <style name="movieInfoLabel">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorBlack</item>
