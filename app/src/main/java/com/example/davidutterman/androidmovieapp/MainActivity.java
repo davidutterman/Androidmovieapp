@@ -1,18 +1,17 @@
 package com.example.davidutterman.androidmovieapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.davidutterman.androidmovieapp.model.Movie;
 
@@ -27,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private TextView mErrorMessageDisplay;
     private MovieAdapter mMovieAdapter;
     private RecyclerView mRecyclerView;
+    private MovieDbListType listType = MovieDbListType.POPULAR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +42,23 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mMovieAdapter);
 
-        makeMovieDbQuery(MovieDbListType.POPULAR);
+        makeMovieDbQuery(listType);
     }
 
     private void makeMovieDbQuery(MovieDbListType type) {
         showMovieDataView();
-        Props props = new Props(getAssets());
+        Config config = new Config(getAssets());
         URL url = NetworkUtils.buildUrl(
-                props.getProperty("movie_db_url"),
-                props.getProperty("api_key"), type);
+                config.getProperty("movie_db_url"),
+                config.getProperty("api_key"), type);
         new FetchMovieTask().execute(url);
     }
 
     @Override
     public void onClick(Movie movie) {
-        Log.d("click", movie.getTitle());
-        Toast.makeText(getBaseContext(), "You clicked on: " + movie.getTitle(), Toast.LENGTH_LONG);
+        Intent intent = new Intent(this, MovieActivity.class);
+        intent.putExtra(Intent.EXTRA_TEXT, movie);
+        startActivity(intent);
     }
 
     class FetchMovieTask extends AsyncTask<URL, Void, Movies> {
@@ -103,17 +104,24 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.refresh, menu);
+        inflater.inflate(R.menu.top_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_refresh) {
-            makeMovieDbQuery(MovieDbListType.POPULAR);
-            return true;
+        switch(item.getItemId()) {
+            case R.id.action_popular:
+                listType = MovieDbListType.POPULAR;
+                break;
+            case R.id.action_top_rated:
+                listType = MovieDbListType.TOP_RATED;
+                break;
+            default:
+            case R.id.action_refresh:
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        makeMovieDbQuery(listType);
+        return true;
     }
 }

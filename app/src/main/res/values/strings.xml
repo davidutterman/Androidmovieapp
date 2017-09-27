@@ -4,4 +4,10 @@
     <string name="error_message">An error has occurred. Please try again by clicking refresh.</string>
     <string name="title_activity_settings">Settings</string>
     <string name="action_refresh">Refresh</string>
+    <string name="movie_title">Title</string>
+    <string name="movie_overview">Plot</string>
+    <string name="movie_rating">User rating</string>
+    <string name="movie_release_date">Release date</string>
+    <string name="action_popular">Popular</string>
+    <string name="action_top_rated">Top rated</string>
 </resources>

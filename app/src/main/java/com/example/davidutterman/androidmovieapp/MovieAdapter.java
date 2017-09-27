@@ -15,13 +15,10 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     private Movies mMovies;
     private final Context mContext;
     private final MovieAdapterOnClickHandler mClickHandler;
-    private final String posterUrl;
 
     MovieAdapter(Context context, MovieAdapterOnClickHandler clickHandler) {
         mContext = context;
         mClickHandler = clickHandler;
-        Props p = new Props(mContext.getAssets());
-        posterUrl = p.getProperty("poster_url");
     }
 
     void setMovies(Movies movies) {
@@ -45,9 +42,9 @@ class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String moviePosterUrl = mMovies.list.get(position).getThumbnail();
+        String moviePosterUrl = mMovies.list.get(position).getPosterUrl(mContext);
         Picasso.with(mContext)
-                .load(posterUrl + moviePosterUrl)
+                .load(moviePosterUrl)
                 .into(holder.mImageView);
     }
 

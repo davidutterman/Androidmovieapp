@@ -5,19 +5,24 @@ import android.content.res.AssetManager;
 import java.io.IOException;
 import java.io.InputStream;
 
-class Props {
+/*
+ * Helper class to get settings from asstes config file
+ */
+public class Config {
+
+    private static final String CONFIG = "config.properties";
 
     private AssetManager assetManager;
 
-    Props(AssetManager assetManager) {
+    public Config(AssetManager assetManager) {
         this.assetManager = assetManager;
     }
 
-    String getProperty(String key) {
+    public String getProperty(String key) {
         InputStream inputStream;
         java.util.Properties properties = new java.util.Properties();
         try {
-            inputStream = assetManager.open("config.properties");
+            inputStream = assetManager.open(CONFIG);
             properties.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();

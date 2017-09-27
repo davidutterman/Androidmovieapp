@@ -1,6 +1,12 @@
 package com.example.davidutterman.androidmovieapp.model;
 
-public class Movie {
+import android.content.Context;
+
+import com.example.davidutterman.androidmovieapp.Config;
+
+import java.io.Serializable;
+
+public class Movie implements Serializable {
 
     private String title;
     private String thumbnail;
@@ -51,5 +57,11 @@ public class Movie {
     public Movie setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
         return this;
+    }
+
+    public String getPosterUrl(Context c) {
+        Config p = new Config(c.getAssets());
+        String posterUrl = p.getProperty("poster_url");
+        return posterUrl + getThumbnail();
     }
 }
