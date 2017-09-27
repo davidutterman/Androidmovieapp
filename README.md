@@ -1,0 +1,1 @@
+To build the app, rename config.properties.sample to 'config.properties' and change the api_key.
