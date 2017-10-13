@@ -1,7 +1,6 @@
 package com.example.davidutterman.androidmovieapp;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,9 +14,6 @@ import android.widget.TextView;
 
 import com.example.davidutterman.androidmovieapp.model.Movie;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.net.URL;
 
 import butterknife.BindView;
@@ -29,8 +25,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @BindView(R.id.tv_error_message_display) TextView mErrorMessageDisplay;
     @BindView(R.id.rv_movies) RecyclerView mRecyclerView;
 
-    private MovieAdapter mMovieAdapter;
-    private MovieDbListType listType = MovieDbListType.POPULAR;
+    MovieAdapter mMovieAdapter;
+    MovieDbListType listType = MovieDbListType.POPULAR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         URL url = NetworkUtils.buildUrl(
                 config.getProperty("movie_db_url"),
                 config.getProperty("api_key"), type);
-        new FetchMovieTask().execute(url);
+        new FetchMovieTask(this).execute(url);
     }
 
     @Override
@@ -63,42 +59,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         startActivity(intent);
     }
 
-    class FetchMovieTask extends AsyncTask<URL, Void, Movies> {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLoadingIndicator.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Movies doInBackground(URL... params) {
-            try {
-                return NetworkUtils.getMovies(params[0]);
-            } catch (IOException | JSONException e) {
-                showErrorMessage();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Movies movies) {
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
-            if (movies != null) {
-                showMovieDataView();
-                mMovieAdapter.setMovies(movies);
-            } else {
-                showErrorMessage();
-            }
-        }
-    }
-
-    private void showMovieDataView() {
+    protected void showMovieDataView() {
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 
-    private void showErrorMessage() {
+    protected void showErrorMessage() {
         mRecyclerView.setVisibility(View.INVISIBLE);
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
