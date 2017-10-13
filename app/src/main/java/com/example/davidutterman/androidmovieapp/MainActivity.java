@@ -21,6 +21,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
+    static final String EXTRA_MOVIE_OBJECT = "com.example.davidutterman.androidmovieapp.model.movie";
+
     @BindView(R.id.pb_loading_indicator) ProgressBar mLoadingIndicator;
     @BindView(R.id.tv_error_message_display) TextView mErrorMessageDisplay;
     @BindView(R.id.rv_movies) RecyclerView mRecyclerView;
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     @Override
     public void onClick(Movie movie) {
         Intent intent = new Intent(this, MovieActivity.class);
-        intent.putExtra(Intent.EXTRA_TEXT, movie);
+        intent.putExtra(EXTRA_MOVIE_OBJECT, movie);
         startActivity(intent);
     }
 

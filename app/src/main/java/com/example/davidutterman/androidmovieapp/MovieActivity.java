@@ -1,7 +1,6 @@
 package com.example.davidutterman.androidmovieapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
@@ -27,8 +26,7 @@ public class MovieActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie);
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-        Movie movie = (Movie) intent.getSerializableExtra(Intent.EXTRA_TEXT);
+        Movie movie = getIntent().getParcelableExtra(MainActivity.EXTRA_MOVIE_OBJECT);
 
         mTitle.setText(movie.getTitle());
 
