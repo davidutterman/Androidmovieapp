@@ -20,24 +20,26 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
-    private ProgressBar mLoadingIndicator;
-    private TextView mErrorMessageDisplay;
+    @BindView(R.id.pb_loading_indicator) ProgressBar mLoadingIndicator;
+    @BindView(R.id.tv_error_message_display) TextView mErrorMessageDisplay;
+    @BindView(R.id.rv_movies) RecyclerView mRecyclerView;
+
     private MovieAdapter mMovieAdapter;
-    private RecyclerView mRecyclerView;
     private MovieDbListType listType = MovieDbListType.POPULAR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
-        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
         mMovieAdapter = new MovieAdapter(this, this);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_movies);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mMovieAdapter);
