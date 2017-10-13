@@ -28,7 +28,7 @@ class FetchMovieTask extends AsyncTask<URL, Void, Movies> {
         try {
             return NetworkUtils.getMovies(params[0]);
         } catch (IOException | JSONException e) {
-            mainActivity.showErrorMessage();
+            showErrorInMainthread();
             return null;
         }
     }
@@ -40,7 +40,16 @@ class FetchMovieTask extends AsyncTask<URL, Void, Movies> {
             mainActivity.showMovieDataView();
             mainActivity.mMovieAdapter.setMovies(movies);
         } else {
-            mainActivity.showErrorMessage();
+            showErrorInMainthread();
         }
+    }
+
+    private void showErrorInMainthread() {
+        mainActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mainActivity.showErrorMessage();
+            }
+        });
     }
 }
